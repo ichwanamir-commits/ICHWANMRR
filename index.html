@@ -1,197 +1,296 @@
 <!doctype html>
-<html lang="en">
+<html lang="id">
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Personal Growth OS — Glass Futuristic (Local)</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<title>Personal Growth OS — Aurora (Final)</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   :root{
-    --bg:#071021;
-    --panel: rgba(255,255,255,0.04);
-    --glass: rgba(255,255,255,0.03);
-    --glass-2: rgba(255,255,255,0.02);
-    --accent:#6fffb0;
+    --bg:#07101a;
+    --panel: rgba(255,255,255,0.03);
+    --card:#0d1620;
+    --accent:#39d49a; /* toska green */
     --accent-2:#4fd1ff;
-    --muted: #9fb0c8;
-    --radius:16px;
+    --muted:#94a3b8;
+    --text:#e6f7ef;
+    --danger:#ff6b6b;
+    --radius:12px;
     font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
-    color-scheme: dark;
   }
   *{box-sizing:border-box}
   html,body{height:100%; margin:0; background:
-    radial-gradient(1200px 600px at 10% 10%, rgba(79,209,255,0.06), transparent 10%),
-    linear-gradient(180deg,#02040a 0%, #071021 60%); color:#eaf6f3}
+    radial-gradient(800px 400px at 10% 5%, rgba(79,209,255,0.03), transparent 8%),
+    linear-gradient(180deg,#03060a 0%, var(--bg) 80%); color:var(--text); -webkit-font-smoothing:antialiased}
   a{color:var(--accent-2)}
-  .app{display:grid; grid-template-columns:320px 1fr 360px; gap:18px; padding:24px; min-height:100vh}
-  .card{
-    background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
-    border: 1px solid rgba(255,255,255,0.04);
-    border-radius:var(--radius);
-    padding:14px;
-    backdrop-filter: blur(8px) saturate(120%);
-    box-shadow: 0 8px 30px rgba(2,6,23,0.6);
-  }
+  /* Layout */
+  .app{display:grid; grid-template-columns:260px 1fr 360px; gap:18px; padding:20px; min-height:100vh}
+  .card{background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005)); border-radius:var(--radius); padding:14px; border:1px solid rgba(255,255,255,0.03); box-shadow:0 8px 30px rgba(2,6,23,0.7)}
   /* Sidebar */
   .brand{display:flex; gap:12px; align-items:center; margin-bottom:12px}
-  .logo{width:52px;height:52px;border-radius:12px;background:linear-gradient(135deg,#052330,#00343a);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:18px;border:1px solid rgba(255,255,255,0.03)}
+  .logo{width:50px;height:50px;border-radius:10px;background:linear-gradient(135deg,#042428,#00343a);display:flex;align-items:center;justify-content:center;font-weight:800;color:var(--accent);font-size:18px;border:1px solid rgba(255,255,255,0.03)}
   .title{font-weight:700}
   .subtitle{font-size:12px;color:var(--muted)}
-  .controls{display:flex; gap:8px; margin:12px 0}
-  .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:8px 10px;border-radius:10px;cursor:pointer;font-weight:600}
-  .btn.primary{background:linear-gradient(90deg, rgba(111,255,176,0.06), rgba(79,209,255,0.04)); border:1px solid rgba(111,255,176,0.12); color:var(--accent); box-shadow: 0 4px 14px rgba(79,209,255,0.03)}
-  .skill-item{padding:10px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;cursor:pointer}
-  .skill-item.active{outline:1px solid rgba(79,209,255,0.12); box-shadow: inset 0 6px 30px rgba(0,0,0,0.35)}
-  .muted{color:var(--muted)}
-  .small{font-size:12px;color:var(--muted)}
-  /* main area */
-  .main{display:flex; flex-direction:column; gap:16px}
-  .overview{display:flex; gap:12px}
-  .stats{display:flex; gap:12px}
-  .stat{flex:1;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));}
-  .num{font-weight:800;color:var(--accent);font-size:20px}
+  .nav{margin-top:12px; display:flex; flex-direction:column; gap:6px}
+  .nav-btn{display:flex;gap:10px;align-items:center;padding:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.02);color:var(--text);cursor:pointer;font-weight:600}
+  .nav-btn.active{background:linear-gradient(90deg, rgba(57,212,154,0.06), rgba(79,209,255,0.02)); border:1px solid rgba(57,212,154,0.12); color:var(--accent)}
+  .sidebar-footer{margin-top:auto; display:flex; gap:8px; align-items:center}
+  .small{font-size:13px; color:var(--muted)}
+  /* Main */
+  .main{display:flex; flex-direction:column; gap:14px}
+  .overview-row{display:flex; gap:12px}
+  .stat{flex:1;padding:12px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));}
+  .num{font-weight:700;color:var(--accent);font-size:18px}
   .section-title{display:flex;justify-content:space-between;align-items:center;font-weight:700}
-  /* calendar */
-  .month-nav{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
-  .calendar{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
-  .cal-day{min-height:110px;padding:8px;border-radius:10px;background:linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));border:1px solid rgba(255,255,255,0.02);position:relative;overflow:hidden}
-  .cal-day .date{position:absolute;top:8px;right:10px;font-size:13px;color:var(--muted)}
-  .dots{position:absolute;left:8px;bottom:8px;display:flex;gap:6px}
-  .dot{width:9px;height:9px;border-radius:50%}
-  .rightcol{height:calc(100vh - 48px); overflow:auto}
-  /* modal */
-  .modal-backdrop{position:fixed;inset:0;background:rgba(2,6,23,0.6);display:flex;align-items:center;justify-content:center;padding:20px}
-  .modal{width:840px;max-width:98%;background:linear-gradient(180deg,#08121a,#06101a);border-radius:12px;padding:18px;border:1px solid rgba(255,255,255,0.03)}
-  input,select,textarea{width:100%;padding:10px;margin-top:8px;margin-bottom:10px;border-radius:10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:#eaf6f3}
+  /* Dashboard widgets */
+  .calendar{display:grid; grid-template-columns:repeat(7,1fr); gap:8px}
+  .cal-day{min-height:84px;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.02);position:relative}
+  .cal-day .date{position:absolute; top:6px; right:8px; color:var(--muted); font-size:12px}
+  .dots{position:absolute; left:8px; bottom:8px; display:flex; gap:6px}
+  .dot{width:8px;height:8px;border-radius:50%}
+  /* Right column */
+  .rightcol{height:calc(100vh - 40px); overflow:auto}
+  /* forms & inputs */
+  input,select,textarea{width:100%;padding:8px;border-radius:8px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--text)}
   label{font-size:13px;color:var(--muted)}
-  table{width:100%;border-collapse:collapse}
-  th,td{padding:8px;text-align:left;border-bottom:1px dashed rgba(255,255,255,0.02);font-size:13px}
+  .btn{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);padding:8px 10px;border-radius:8px;cursor:pointer;font-weight:600}
+  .btn.primary{background:linear-gradient(90deg, rgba(57,212,154,0.06), rgba(79,209,255,0.02)); border:1px solid rgba(57,212,154,0.12); color:var(--accent)}
+  .btn.fail{background:linear-gradient(90deg, rgba(255,107,107,0.04), transparent); border:1px solid rgba(255,107,107,0.08); color:var(--danger)}
+  .muted{color:var(--muted)}
+  /* small helpers */
+  .row{display:flex;gap:8px;align-items:center}
+  .tag{padding:6px 8px;border-radius:8px;background:rgba(255,255,255,0.02);font-size:13px}
+  /* habit grid */
+  .habit-grid{display:grid; grid-auto-flow:column; gap:6px; overflow:auto; padding:6px}
+  .habit-cell{width:28px;height:28px;border-radius:6px;background:transparent;border:1px solid rgba(255,255,255,0.04);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .habit-cell.done{background:linear-gradient(90deg,var(--accent), var(--accent-2)); border:1px solid rgba(255,255,255,0.06)}
   /* responsive */
   @media(max-width:1100px){ .app{grid-template-columns:1fr; padding:12px} .rightcol{height:auto} .calendar{grid-template-columns:repeat(7,1fr)} }
 </style>
 </head>
 <body>
 <div class="app">
-  <!-- Sidebar -->
-  <aside class="card">
+  <!-- SIDEBAR -->
+  <aside class="card" style="display:flex;flex-direction:column">
     <div class="brand">
       <div class="logo">PG</div>
       <div>
-        <div class="title">Personal Growth OS</div>
-        <div class="subtitle">Glass Futuristic — Local</div>
+        <div class="title">Personal Growth</div>
+        <div class="subtitle small">Aurora • Lokal</div>
       </div>
     </div>
 
-    <div class="controls">
-      <button id="addSkillBtn" class="btn primary">+ Skill</button>
-      <button id="addScheduleBtn" class="btn">+ Schedule</button>
+    <div class="nav" id="nav">
+      <button class="nav-btn active" data-view="dashboard">Dashboard</button>
+      <button class="nav-btn" data-view="tracker">Progress Tracker</button>
+      <button class="nav-btn" data-view="schedule">Schedule / Missions</button>
+      <button class="nav-btn" data-view="finance">Finance</button>
+      <button class="nav-btn" data-view="review">Weekly Review</button>
+      <button class="nav-btn" data-view="settings">Settings</button>
     </div>
 
-    <div id="skillsList" style="max-height:56vh; overflow:auto"></div>
-
-    <div style="margin-top:12px; display:flex; gap:8px">
-      <button id="exportBtn" class="btn">Export</button>
-      <button id="importBtn" class="btn">Import</button>
-      <button id="settingsBtn" class="btn">Settings</button>
+    <div style="margin-top:12px">
+      <div style="display:flex;gap:8px">
+        <button id="addQuickBtn" class="btn primary">Quick Add</button>
+        <button id="importBtn" class="btn">Import</button>
+      </div>
     </div>
 
-    <div style="margin-top:12px" class="small muted">Local prototype — saves to browser. Export before clearing.</div>
+    <div class="sidebar-footer" style="margin-top:12px">
+      <div style="flex:1">
+        <div class="small muted">Local prototype — saved on browser</div>
+      </div>
+    </div>
   </aside>
 
-  <!-- Main -->
-  <main class="card main">
-    <div class="overview">
-      <div style="flex:1">
-        <div class="section-title"><div>Overview</div><div class="small">Quick stats & calendar</div></div>
-        <div class="stats" style="margin-top:10px">
-          <div class="stat"><div class="num" id="statTotal">0</div><div class="small">Total Units</div></div>
-          <div class="stat"><div class="num" id="statSkills">0</div><div class="small">Skills</div></div>
-          <div class="stat"><div class="num" id="statStreak">0</div><div class="small">Best Streak</div></div>
+  <!-- MAIN -->
+  <main class="main card" id="mainCard">
+    <!-- Dashboard view -->
+    <section id="view-dashboard">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:18px">Dashboard — Progress Overview</div>
+        <div class="small muted">Ringkasan cepat</div>
+      </div>
+
+      <div class="overview-row" style="margin-top:12px">
+        <div class="stat">
+          <div class="small muted">Total Units Practiced</div>
+          <div class="num" id="statTotal">0</div>
+        </div>
+        <div class="stat">
+          <div class="small muted">Active Skills</div>
+          <div class="num" id="statSkills">0</div>
+        </div>
+        <div class="stat">
+          <div class="small muted">Best Streak (days)</div>
+          <div class="num" id="statStreak">0</div>
+        </div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <div style="flex:1" class="card">
+          <div class="section-title"><div>Progress Chart</div><div class="small muted">Total per week (last 8 weeks)</div></div>
+          <canvas id="overviewChart" height="160" style="margin-top:12px"></canvas>
         </div>
 
-        <div style="margin-top:12px">
-          <div class="month-nav">
-            <div>
-              <button id="prevMonth" class="btn">◀</button>
-              <button id="nextMonth" class="btn">▶</button>
+        <div style="width:420px" class="card">
+          <div class="section-title"><div>Mini Calendar</div><div class="small muted">Click a date</div></div>
+          <div id="miniCalendar" class="calendar" style="margin-top:12px"></div>
+        </div>
+      </div>
+
+      <div style="margin-top:12px; display:flex; gap:12px">
+        <div class="card" style="flex:1">
+          <div class="section-title"><div>Streaks & Achievements</div><div class="small muted">Motivation</div></div>
+          <div id="achieveArea" style="margin-top:10px"></div>
+        </div>
+        <div class="card" style="width:320px">
+          <div class="section-title"><div>Quick Stats</div><div class="small muted">Snapshot</div></div>
+          <div style="margin-top:10px">
+            <div class="row"><div style="flex:1"><div class="small muted">Avg per session</div><div id="avgSession" style="font-weight:700">0</div></div></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Tracker view -->
+    <section id="view-tracker" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:18px">Progress Tracker</div>
+        <div class="small muted">Buat / kelola kegiatan</div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <div style="flex:1" class="card">
+          <div class="section-title"><div>Activities</div><div><button class="btn primary" onclick="openCreateActivity()">+ New Activity</button></div></div>
+          <div id="activitiesList" style="margin-top:10px; max-height:48vh; overflow:auto"></div>
+        </div>
+
+        <div style="width:420px" class="card">
+          <div class="section-title"><div>Activity Detail</div><div class="small muted">Pilih activity untuk edit</div></div>
+          <div id="activityDetail" style="margin-top:10px">Pilih kegiatan dari kiri.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Schedule view -->
+    <section id="view-schedule" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:18px">Schedule & Missions</div>
+        <div class="small muted">Recurring tasks & reminders</div>
+      </div>
+
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <div style="flex:1" class="card">
+          <div class="section-title"><div>Scheduled Items</div><div><button class="btn primary" onclick="openScheduleModal()">+ Create</button></div></div>
+          <div id="schedulesList" style="margin-top:10px; max-height:60vh; overflow:auto"></div>
+        </div>
+
+        <div style="width:420px" class="card">
+          <div class="section-title"><div>Day Preview</div><div class="small muted">Klik tanggal di calendar</div></div>
+          <div id="scheduleDayDetail" style="margin-top:10px">Pilih tanggal di Dashboard → Mini Calendar.</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Finance view -->
+    <section id="view-finance" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:18px">Finance</div>
+        <div class="small muted">Track income & expense</div>
+      </div>
+      <div style="display:flex;gap:12px;margin-top:12px">
+        <div style="flex:1" class="card">
+          <div class="section-title"><div>Records</div><div class="small muted"></div></div>
+          <div style="margin-top:10px">
+            <div style="display:flex;gap:8px">
+              <input id="finAmount" placeholder="amount" />
+              <select id="finType"><option value="expense">Expense</option><option value="income">Income</option><option value="saving">Saving</option></select>
             </div>
-            <div id="monthLabel" style="font-weight:700"></div>
-            <div>
-              <button id="todayBtn" class="btn">Today</button>
+            <div style="display:flex;gap:8px;margin-top:8px">
+              <input id="finCategory" placeholder="category" />
+              <button class="btn primary" id="addFinBtn">Add</button>
             </div>
-          </div>
-
-          <div id="calendarGrid" class="calendar"></div>
-        </div>
-      </div>
-
-      <div style="width:420px">
-        <div class="section-title"><div>Activity Detail</div><div class="small">Select a date</div></div>
-        <div id="dayDetail" style="margin-top:12px">
-          Click a date to show events, logs, and quick-add forms.
-        </div>
-      </div>
-    </div>
-
-    <div style="display:flex;gap:12px">
-      <div style="flex:1" class="card">
-        <div class="section-title"><div>Selected Skill</div><div class="small">Manage skills & logs</div></div>
-        <div id="skillPanel" style="margin-top:10px"></div>
-      </div>
-
-      <div style="width:420px" class="card">
-        <div class="section-title"><div>Missions & Finance</div><div class="small">Track tasks & money</div></div>
-        <div style="margin-top:10px">
-          <div id="missionsArea"></div>
-          <hr style="border:none;border-top:1px dashed rgba(255,255,255,0.03);margin:10px 0">
-          <div style="display:flex;gap:8px">
-            <input id="finAmt" type="number" placeholder="amount" style="flex:1" />
-            <select id="finType" style="width:130px"><option value="expense">Expense</option><option value="income">Income</option><option value="saving">Saving</option></select>
-          </div>
-          <div style="margin-top:8px;display:flex;gap:8px">
-            <input id="finCat" placeholder="category" style="flex:1" />
-            <button id="addFin" class="btn primary">Add</button>
-          </div>
-          <div style="margin-top:10px; max-height:160px; overflow:auto"><table><thead><tr><th>Date</th><th>Type</th><th>Amt</th><th>Cat</th></tr></thead><tbody id="finTable"></tbody></table></div>
-          <div style="margin-top:8px;display:flex;justify-content:space-between;align-items:center">
-            <div class="small">Monthly Balance</div>
-            <div id="monthlyBal" class="num">0</div>
+            <div style="margin-top:10px; max-height:48vh; overflow:auto"><table><thead><tr><th>Date</th><th>Type</th><th>Amt</th><th>Cat</th></tr></thead><tbody id="finRecords"></tbody></table></div>
           </div>
         </div>
-      </div>
-    </div>
 
-    <div class="card">
-      <div class="section-title"><div>Weekly Review (Auto Draft)</div><div class="small">Editable summary</div></div>
-      <textarea id="reviewArea" rows="4" style="margin-top:8px;background:transparent"></textarea>
-      <div style="margin-top:8px;display:flex;gap:8px"><button id="genReview" class="btn primary">Generate Review</button><button id="saveReview" class="btn">Export Review</button></div>
-    </div>
+        <div style="width:420px" class="card">
+          <div class="section-title"><div>Summary</div><div class="small muted">Monthly</div></div>
+          <div style="margin-top:10px"><div class="small muted">Balance</div><div id="finBalance" style="font-weight:700;font-size:20px">0</div></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Weekly review -->
+    <section id="view-review" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:18px">Weekly Review</div>
+        <div class="small muted">Auto draft & save</div>
+      </div>
+
+      <div style="margin-top:12px" class="card">
+        <textarea id="reviewText" rows="6" style="background:transparent;padding:12px"></textarea>
+        <div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" id="genReviewBtn">Generate</button><button class="btn" id="saveReviewBtn">Export</button></div>
+      </div>
+    </section>
+
+    <!-- Settings -->
+    <section id="view-settings" style="display:none">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-weight:800;font-size:18px">Settings</div>
+        <div class="small muted">Customize</div>
+      </div>
+
+      <div style="margin-top:12px" class="card">
+        <label>Coach Tone</label>
+        <select id="settingTone">
+          <option value="partner_mix">Partner (ID+EN)</option>
+          <option value="professional">Professional</option>
+          <option value="motivator">Motivator</option>
+        </select>
+        <div style="margin-top:12px;display:flex;gap:8px">
+          <button class="btn primary" id="saveSettingsBtn">Save</button>
+          <button class="btn" id="resetDataBtn">Reset Data</button>
+        </div>
+      </div>
+    </section>
   </main>
 
-  <!-- Right column -->
+  <!-- RIGHT COLUMN -->
   <aside class="card rightcol">
-    <div class="section-title"><div>Focus & Coach</div><div class="small">Pomodoro + AI Coach</div></div>
+    <div style="display:flex;justify-content:space-between;align-items:center">
+      <div style="font-weight:800">Quick Actions</div>
+      <div class="small muted">Fast tools</div>
+    </div>
 
-    <div style="margin-top:10px">
-      <div class="small">Pomodoro (25/5)</div>
-      <div style="display:flex;gap:8px;margin-top:8px">
-        <input id="pomSkill" placeholder="Skill for session" />
-        <button id="startPom" class="btn primary">Start</button>
+    <div style="margin-top:12px">
+      <div style="display:flex;gap:8px;margin-bottom:8px">
+        <select id="quickSkillSelect"></select>
+        <input id="quickAmt" placeholder="amt" style="width:80px" />
+        <button class="btn primary" id="quickAddBtn">Log</button>
       </div>
-      <div id="pomTimer" class="small" style="margin-top:8px;color:var(--muted)">Ready</div>
-    </div>
 
-    <div style="margin-top:14px">
-      <div class="section-title"><div>AI Coach</div><div class="small">Partner tone (ID+EN)</div></div>
-      <div id="coachBox" class="card" style="margin-top:10px;background:linear-gradient(90deg, rgba(111,255,176,0.03), rgba(79,209,255,0.02));color:var(--accent)"></div>
-    </div>
+      <div style="margin-top:10px">
+        <div class="small muted">Pomodoro</div>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <input id="pomSkill" placeholder="skill id or choose" />
+          <button class="btn primary" id="pomStartBtn">Start</button>
+        </div>
+        <div id="pomDisplay" class="small muted" style="margin-top:8px">Ready</div>
+      </div>
 
-    <div style="margin-top:14px">
-      <div class="section-title"><div>Quick Export / Import</div><div class="small"></div></div>
-      <div style="margin-top:8px;display:flex;gap:8px">
-        <button id="exportAll" class="btn">Export All</button>
-        <button id="importAll" class="btn">Import</button>
+      <div style="margin-top:14px">
+        <div class="section-title"><div>Coach</div><div class="small muted">Partner tone</div></div>
+        <div id="coachPanel" style="margin-top:8px;background:linear-gradient(90deg, rgba(57,212,154,0.03), rgba(79,209,255,0.02));padding:12px;border-radius:10px;color:var(--accent)"></div>
+      </div>
+
+      <div style="margin-top:12px">
+        <div style="display:flex;gap:8px">
+          <button class="btn" id="exportBtnAll">Export All</button>
+          <button class="btn" id="importBtnAll">Import</button>
+        </div>
       </div>
     </div>
   </aside>
@@ -201,473 +300,448 @@
 <div id="modalRoot" style="display:none"></div>
 
 <script>
-/* === Simple Local DB ===
-   Key: pg_os_v3
-   Data model: { skills:[], logs:[], missions:[], schedules:[], finances:[], settings:{} }
-*/
-const STORAGE_KEY = 'pg_os_v3';
-let DB = JSON.parse(localStorage.getItem(STORAGE_KEY) || JSON.stringify({
-  skills: [], logs: [], missions: [], schedules: [], finances: [], settings: { tone: 'partner_mix' }
+/* ---------- App Data & Storage ---------- */
+const KEY = 'pg_os_final_v1';
+let DB = JSON.parse(localStorage.getItem(KEY) || JSON.stringify({
+  skills: [], activities: [], logs: [], missions: [], schedules: [], finances: [], settings: { tone: 'partner_mix' }
 }));
-function saveDB(){ localStorage.setItem(STORAGE_KEY, JSON.stringify(DB)); }
+function save(){ localStorage.setItem(KEY, JSON.stringify(DB)); }
 
-/* === Utilities === */
+/* ---------- Utils ---------- */
 function uid(){ return 'id_' + Math.random().toString(36).slice(2,9); }
 function now(){ return new Date().toISOString(); }
 function dateKey(d){ return (new Date(d)).toISOString().slice(0,10); }
 function fmt(d){ return new Date(d).toLocaleString(); }
-function clamp(v, a, b){ return Math.max(a, Math.min(b, v)); }
+function el(id){ return document.getElementById(id); }
 
-/* === Init demo data if empty === */
-if(DB.skills.length === 0){
-  const s1 = { id: uid(), name: 'Public Speaking', unit: 'hours', goal: 50, subs: [{id:uid(),name:'Speech'},{id:uid(),name:'Improv'}], color:'#6fffb0' };
-  const s2 = { id: uid(), name: 'English', unit: 'hours', goal: 200, subs: [{id:uid(),name:'Listening'},{id:uid(),name:'Speaking'}], color:'#4fd1ff' };
-  DB.skills.push(s1, s2);
-  DB.logs.push({ id: uid(), skillId: s1.id, date: new Date().toISOString(), amount: 1, note: 'warm-up' });
-  DB.missions.push({ id: uid(), title: 'Record mock speech', relatedSkillId: s1.id, due: null, status: 'pending', reward: 'Coffee', recurrence: 'none' });
-  saveDB();
+/* ---------- Init Demo Data (only if empty) ---------- */
+if(DB.activities.length === 0 && DB.skills.length === 0){
+  const s1 = { id: uid(), name: 'Public Speaking', color:'#39d49a' };
+  const s2 = { id: uid(), name: 'English', color:'#4fd1ff' };
+  DB.skills.push(s1,s2);
+  DB.activities.push({ id: uid(), name: 'Practice Speech', skillId: s1.id, type: 'progress', unit:'hours', target:50, createdAt: now(), recurrence: {type:'weekly', weekdays:[1,3,5]} });
+  DB.activities.push({ id: uid(), name: 'Vocabulary Drills', skillId: s2.id, type: 'habit', unit:'days', createdAt: now(), recurrence: {type:'daily'} });
+  DB.logs.push({ id: uid(), activityId: DB.activities[0].id, date: new Date().toISOString(), amount:1, note:'warmup' });
+  save();
 }
 
-/* === DOM refs === */
-const skillsList = document.getElementById('skillsList');
-const statTotal = document.getElementById('statTotal');
-const statSkills = document.getElementById('statSkills');
-const statStreak = document.getElementById('statStreak');
-const calendarGrid = document.getElementById('calendarGrid');
-const monthLabel = document.getElementById('monthLabel');
-const dayDetail = document.getElementById('dayDetail');
-const skillPanel = document.getElementById('skillPanel');
-const missionsArea = document.getElementById('missionsArea');
-const finTable = document.getElementById('finTable');
-const monthlyBal = document.getElementById('monthlyBal');
-const coachBox = document.getElementById('coachBox');
-const pomTimer = document.getElementById('pomTimer');
+/* ---------- DOM Refs ---------- */
+const navBtns = Array.from(document.querySelectorAll('.nav-btn'));
+const views = { dashboard: el('view-dashboard'), tracker: el('view-tracker'), schedule: el('view-schedule'), finance: el('view-finance'), review: el('view-review'), settings: el('view-settings') };
+const overviewChartCtx = document.getElementById('overviewChart').getContext('2d');
 
-/* === App state === */
-let viewDate = new Date();
-let selectedDate = null;
-let selectedSkill = DB.skills[0] || null;
-let pomInterval = null;
-
-/* === Render functions === */
-function render(){
-  renderSkills();
-  renderStats();
-  renderCalendar();
-  renderSkillPanel();
-  renderMissions();
-  renderFinances();
-  renderCoach();
-}
-
-function renderSkills(){
-  skillsList.innerHTML = '';
-  DB.skills.forEach(s=>{
-    const el = document.createElement('div');
-    el.className = 'skill-item' + (selectedSkill && selectedSkill.id === s.id ? ' active' : '');
-    el.innerHTML = `<div style="min-width:0"><div style="font-weight:700">${s.name}</div><div class="small muted">goal ${s.goal} ${s.unit}</div></div><div class="small">${totalFor(s.id)} ${s.unit}</div>`;
-    el.onclick = ()=>{ selectedSkill = s; render(); };
-    skillsList.appendChild(el);
+/* ---------- Navigation ---------- */
+navBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    navBtns.forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    const view = btn.dataset.view;
+    for(const k in views){ views[k].style.display = (k===view)? '' : 'none'; }
+    if(view === 'dashboard') renderDashboard();
+    if(view === 'tracker') renderActivities();
+    if(view === 'schedule') renderSchedules();
+    if(view === 'finance') renderFinances();
+    if(view === 'review') renderReview();
+    if(view === 'settings') renderSettings();
   });
-  statSkills.textContent = DB.skills.length;
-}
+});
 
-function renderStats(){
-  statTotal.textContent = DB.logs.reduce((a,b)=>a+Number(b.amount||0),0);
-  statStreak.textContent = calcBestStreak();
-}
+/* ---------- Dashboard: Mini calendar & overview chart ---------- */
+let overviewChart = null;
+function renderDashboard(){
+  // Stats
+  el('statTotal').textContent = DB.logs.reduce((a,b)=>a+Number(b.amount||0),0);
+  el('statSkills').textContent = DB.skills.length;
+  el('statStreak').textContent = calcBestStreak();
 
-/* === Calendar === */
-function startOfMonth(d){ return new Date(d.getFullYear(), d.getMonth(), 1); }
-function endOfMonth(d){ return new Date(d.getFullYear(), d.getMonth()+1, 0); }
+  // Mini calendar (current month)
+  renderMiniCalendar(new Date());
 
-function renderCalendar(){
-  calendarGrid.innerHTML = '';
-  const start = startOfMonth(viewDate);
-  const end = endOfMonth(viewDate);
-  const startWeekday = start.getDay();
-  const daysInMonth = end.getDate();
-  monthLabel.textContent = viewDate.toLocaleString(undefined,{month:'long', year:'numeric'});
-
-  // leading blanks
-  for(let i=0;i<startWeekday;i++){
-    const blank = document.createElement('div'); blank.className='cal-day'; blank.style.opacity='0.18';
-    calendarGrid.appendChild(blank);
+  // Overview chart: weekly totals last 8 weeks
+  const weeks = [];
+  const labels = [];
+  for(let i=7;i>=0;i--){
+    const start = new Date(); start.setDate(start.getDate() - i*7);
+    const weekStart = new Date(start); weekStart.setDate(weekStart.getDate() - weekStart.getDay()); // sunday
+    const weekEnd = new Date(weekStart); weekEnd.setDate(weekStart.getDate()+6);
+    labels.push(`${weekStart.getMonth()+1}/${weekStart.getDate()}`);
+    const total = DB.logs.filter(l=>{
+      const d = new Date(l.date); return d >= weekStart && d <= weekEnd;
+    }).reduce((a,b)=>a+Number(b.amount||0),0);
+    weeks.push(total);
   }
+  if(overviewChart) overviewChart.destroy();
+  overviewChart = new Chart(overviewChartCtx, {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'Units', data: weeks, backgroundColor: 'rgba(57,212,154,0.8)' }]},
+    options:{ plugins:{ legend:{display:false} }, scales:{ y: { beginAtZero:true } } }
+  });
 
-  // build days
-  for(let day=1; day<=daysInMonth; day++){
+  // achievements preview
+  renderAchievements();
+}
+
+/* Mini calendar generation + clickable dates */
+function renderMiniCalendar(viewDate){
+  const container = el('miniCalendar');
+  container.innerHTML = '';
+  const start = new Date(viewDate.getFullYear(), viewDate.getMonth(), 1);
+  const end = new Date(viewDate.getFullYear(), viewDate.getMonth()+1, 0);
+  const startWeekday = start.getDay();
+  for(let i=0;i<startWeekday;i++){
+    const blank = document.createElement('div'); blank.className='cal-day'; blank.style.opacity='0.18'; container.appendChild(blank);
+  }
+  for(let day=1; day<=end.getDate(); day++){
     const d = new Date(viewDate.getFullYear(), viewDate.getMonth(), day);
     const key = dateKey(d);
-    const el = document.createElement('div'); el.className='cal-day';
-    el.innerHTML = `<div class="date">${day}</div><div class="dots" id="dots_${key}"></div>`;
-    el.onclick = ()=>{ selectedDate = key; renderDayDetail(key); highlightDay(key); };
-    calendarGrid.appendChild(el);
+    const cell = document.createElement('div'); cell.className='cal-day';
+    cell.innerHTML = `<div class="date">${day}</div><div class="dots" id="dots_${key}"></div>`;
+    cell.addEventListener('click', ()=> {
+      // show day detail in scheduleDayDetail or dayDetail
+      const logs = DB.logs.filter(l=> dateKey(l.date) === key);
+      const occ = expandAllOccurrencesForDate(key);
+      let html = `<div style="font-weight:700">${d.toDateString()}</div>`;
+      html += `<div class="small muted" style="margin-top:8px">Events: ${occ.length}</div>`;
+      occ.forEach(o=> html += `<div style="padding:8px;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)"><strong>${o.title}</strong><div class="small muted">${o.type}</div></div>`);
+      html += `<div class="small muted" style="margin-top:10px">Logs: ${logs.length}</div>`;
+      logs.forEach(l=> html += `<div style="padding:8px;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)"><strong>${getActivityName(l.activityId)}</strong> • ${l.amount}<div class="small">${l.note||''}</div></div>`);
+      html += `<div style="margin-top:10px"><div style="font-weight:700">Quick Add</div><select id="daySkillSel">${DB.skills.map(s=>`<option value="${s.id}">${s.name}</option>`)}</select><input id="dayAmt" placeholder="amount"/><textarea id="dayNote" rows="2" placeholder="note"></textarea><div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" onclick="addLogOnDate('${key}')">Add Log</button></div></div>`;
+      el('scheduleDayDetail').innerHTML = html;
+      // highlight selected cell
+      document.querySelectorAll('.cal-day').forEach(c=>c.style.boxShadow='none');
+      cell.style.boxShadow='0 0 0 2px rgba(57,212,154,0.08)';
+    });
+    container.appendChild(cell);
   }
-
-  // populate occurrences & logs
+  // populate dots for events/logs
   const occMap = buildOccurrencesForMonth(viewDate);
-  const logsByDate = {};
-  DB.logs.forEach(l=>{ const k = dateKey(l.date); logsByDate[k] = logsByDate[k]||[]; logsByDate[k].push(l); });
-
-  // draw dots: schedules/missions first
-  for(const d in occMap){
-    const node = document.getElementById('dots_'+d); if(!node) continue;
-    occMap[d].forEach(ev=>{
-      const dot = document.createElement('div'); dot.className='dot'; dot.style.background = ev.color || '#888'; dot.title = ev.title;
-      node.appendChild(dot);
-    });
-  }
-  // logs dots (skill color)
-  for(const d in logsByDate){
-    const node = document.getElementById('dots_'+d); if(!node) continue;
-    logsByDate[d].forEach(l=>{
-      const sk = DB.skills.find(s=>s.id===l.skillId);
-      const dot = document.createElement('div'); dot.className='dot'; dot.style.background = sk?.color || '#6fffb0'; dot.title = `${sk?.name||'Skill'}: ${l.amount}`;
-      node.appendChild(dot);
-    });
-  }
+  DB.logs.forEach(l=>{ const k=dateKey(l.date); const n = document.getElementById('dots_'+k); if(n){ const dot = document.createElement('div'); dot.className='dot'; const act = DB.activities.find(a=>a.id===l.activityId); dot.style.background = (act && act.color) ? act.color : '#39d49a'; dot.title = `${getActivityName(l.activityId)}: ${l.amount}`; n.appendChild(dot); }});
+  for(const k in occMap){ const n = document.getElementById('dots_'+k); if(!n) continue; occMap[k].forEach(ev=>{ const dot = document.createElement('div'); dot.className='dot'; dot.style.background = ev.color || '#4fd1ff'; dot.title = ev.title; n.appendChild(dot); }); }
 }
 
-function highlightDay(key){
-  document.querySelectorAll('.cal-day').forEach(c=> c.style.boxShadow='none');
-  // find day with date equal
-  document.querySelectorAll('.cal-day').forEach(e=>{
-    const dateEl = e.querySelector('.date');
-    if(!dateEl) return;
-    const dayNum = Number(dateEl.textContent);
-    const dtKey = dateKey(new Date(viewDate.getFullYear(), viewDate.getMonth(), dayNum));
-    if(dtKey === key) e.style.boxShadow = '0 0 0 2px rgba(79,209,255,0.08)';
+/* ---------- Activities (Tracker) ---------- */
+function renderActivities(){
+  const container = el('activitiesList');
+  container.innerHTML = '';
+  if(DB.activities.length===0) container.innerHTML = '<div class="small muted">No activities yet. Click + New Activity</div>';
+  DB.activities.slice().reverse().forEach(act=>{
+    const div = document.createElement('div'); div.style.padding='10px'; div.style.border='1px solid rgba(255,255,255,0.03)'; div.style.borderRadius='8px'; div.style.marginBottom='8px'; div.style.display='flex'; div.style.justifyContent='space-between'; div.style.alignItems='center';
+    div.innerHTML = `<div style="min-width:0"><div style="font-weight:700">${act.name}</div><div class="small muted">${getSkillName(act.skillId)} • ${act.type}</div></div>
+      <div style="display:flex;gap:8px;align-items:center"><button class="btn" onclick="openActivityDetail('${act.id}')">Open</button><button class="btn fail" onclick="deleteActivity('${act.id}')">Delete</button></div>`;
+    container.appendChild(div);
   });
+  // update quick select
+  const qs = el('quickSkillSelect'); qs.innerHTML = '<option value="">— choose activity —</option>';
+  DB.activities.forEach(a=> { const opt = document.createElement('option'); opt.value = a.id; opt.text = a.name; qs.appendChild(opt); });
 }
 
-/* === Occurrence expansion (schedules & missions) === */
-function buildOccurrencesForMonth(view){
-  const map = {};
-  const start = startOfMonth(view); const end = endOfMonth(view);
-  const rangeStart = new Date(start.getFullYear(), start.getMonth(), 1,0,0,0);
-  const rangeEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate(),23,59,59);
-
-  DB.schedules.forEach(sch=>{ const occs = expandOccurrences(sch, rangeStart, rangeEnd); occs.forEach(dt=>{ const k = dateKey(dt); map[k] = map[k] || []; map[k].push({type:'schedule', title: sch.title, color: sch.color || '#ffaa55'}); }); });
-  DB.missions.forEach(ms=>{
-    if(ms.recurrence && ms.recurrence !== 'none'){
-      const occs = expandOccurrences(ms, rangeStart, rangeEnd);
-      occs.forEach(dt=>{ const k = dateKey(dt); map[k] = map[k] || []; map[k].push({type:'mission', title: ms.title, color:'#66d9ff'}); });
-    } else if(ms.due){ const d = new Date(ms.due); if(d >= rangeStart && d <= rangeEnd){ const k = dateKey(d); map[k] = map[k] || []; map[k].push({type:'mission', title:ms.title, color:'#66d9ff'}); } }
-  });
-  return map;
-}
-
-function expandOccurrences(item, rangeStart, rangeEnd){
-  const occs = []; const type = item.recurrence || 'none';
-  if(type === 'none'){ if(item.start || item.due){ const d = new Date(item.start || item.due); if(d>=rangeStart && d<=rangeEnd) occs.push(d); } return occs; }
-  const start = new Date(item.start || item.due || now());
-  const endCond = item.recurrence_end ? new Date(item.recurrence_end) : null;
-  const maxEnd = endCond || rangeEnd;
-  let current = new Date(start);
-  function pushIfIn(d){ if(d >= rangeStart && d <= rangeEnd) occs.push(new Date(d)); }
-  if(type === 'daily'){
-    while(current <= maxEnd){ pushIfIn(current); current.setDate(current.getDate()+1); if(occs.length>500) break; }
-  } else if(type === 'weekly'){
-    const weekdays = item.weekdays || [current.getDay()];
-    while(current <= maxEnd){ if(weekdays.includes(current.getDay())) pushIfIn(current); current.setDate(current.getDate()+1); if(occs.length>500) break; }
-  } else if(type === 'biweekly'){
-    const interval = 14;
-    while(current <= maxEnd){ pushIfIn(current); current.setDate(current.getDate()+interval); if(occs.length>500) break; }
-  } else if(type === 'monthly_date'){
-    const dom = start.getDate();
-    while(current <= maxEnd){ pushIfIn(current); current.setMonth(current.getMonth()+1); if(current.getDate() !== dom) current.setDate(Math.min(dom, new Date(current.getFullYear(), current.getMonth()+1,0).getDate())); if(occs.length>500) break; }
-  } else if(type === 'custom_every_n_days'){
-    const n = item.every_n_days || 1;
-    while(current <= maxEnd){ pushIfIn(current); current.setDate(current.getDate()+n); if(occs.length>500) break; }
+/* Open activity detail (right panel) */
+function openActivityDetail(id){
+  const act = DB.activities.find(a=>a.id===id);
+  if(!act) return;
+  selectedActivity = act;
+  let html = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:800">${act.name}</div><div class="small muted">${getSkillName(act.skillId)} • ${act.type}</div></div><div><button class="btn" onclick="openEditActivity('${act.id}')">Edit</button></div></div>`;
+  // show different UI per type
+  if(act.type === 'progress' || act.type === 'timeline'){
+    // progress summary
+    const total = DB.logs.filter(l=> l.activityId===act.id).reduce((a,b)=>a+Number(b.amount||0),0);
+    const pct = act.target ? Math.round((total/act.target)*100) : 0;
+    html += `<div style="margin-top:10px"><div class="small muted">Total: ${total} ${act.unit || ''}</div><div style="margin-top:8px"><div style="height:10px;background:rgba(255,255,255,0.02);border-radius:8px;"><div style="width:${clamp(pct,0,100)}%;height:10px;background:linear-gradient(90deg,var(--accent),var(--accent-2));border-radius:8px"></div></div><div class="small muted" style="margin-top:6px">${pct}% of target ${act.target || '-'}</div></div></div>`;
+    // logs
+    const logs = DB.logs.filter(l=>l.activityId===act.id).sort((a,b)=>new Date(b.date)-new Date(a.date));
+    html += `<div style="margin-top:12px"><div class="small muted">Logs</div><table style="margin-top:8px"><thead><tr><th>Date</th><th>Amt</th><th>Note</th><th></th></tr></thead><tbody>`;
+    logs.forEach(l=> html += `<tr><td>${fmt(l.date)}</td><td>${l.amount}</td><td>${l.note||''}</td><td><button class="btn" onclick="deleteLog('${l.id}')">Del</button></td></tr>`);
+    html += `</tbody></table><div style="margin-top:8px"><button class="btn primary" onclick="openAddLogModal('${act.id}')">+ Add Progress</button></div></div>`;
+  } else if(act.type === 'habit'){
+    // habit grid: show last 30 days
+    html += `<div style="margin-top:10px"><div class="small muted">Habit (last 30 days)</div><div style="margin-top:8px; display:flex; gap:6px; overflow:auto">`;
+    const today = new Date();
+    for(let i=29;i>=0;i--){
+      const d = new Date(); d.setDate(today.getDate() - i);
+      const k = dateKey(d);
+      const done = DB.logs.some(l=> l.activityId===act.id && dateKey(l.date) === k);
+      html += `<div class="habit-cell ${done? 'done':''}" onclick="toggleHabit('${act.id}','${k}', this)">${done? '✓':''}</div>`;
+    }
+    html += `</div></div><div style="margin-top:10px"><button class="btn primary" onclick="markToday('${act.id}')">Mark Today</button></div>`;
+  } else if(act.type === 'checklist'){
+    // checklist items (stored in act.items)
+    html += `<div style="margin-top:10px"><div class="small muted">Checklist</div>`;
+    (act.items || []).forEach(it=> html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:8px;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)">${it.text} <div><input type="checkbox" ${it.done? 'checked':''} onchange="toggleChecklistItem('${act.id}','${it.id}', this)"></div></div>`);
+    html += `<div style="margin-top:8px"><input id="newChecklistItem" placeholder="New item"/><div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" onclick="addChecklistItem('${act.id}')">Add</button></div></div></div>`;
   }
-  if(item.end_after_occurrences) return occs.slice(0, item.end_after_occurrences);
-  return occs;
+  el('activityDetail').innerHTML = html;
 }
 
-/* === Day detail (show events + logs + quick add) === */
-function renderDayDetail(key){
-  const dt = new Date(key);
-  const logs = DB.logs.filter(l=> dateKey(l.date) === key);
-  const occs = [];
-  DB.schedules.forEach(sch=>{ if(expandOccurrences(sch, new Date(key+'T00:00:00'), new Date(key+'T23:59:59')).length) occs.push({type:'schedule', item:sch}); });
-  DB.missions.forEach(ms=>{ if(expandOccurrences(ms, new Date(key+'T00:00:00'), new Date(key+'T23:59:59')).length) occs.push({type:'mission', item:ms}); else if(ms.due && dateKey(ms.due)===key) occs.push({type:'mission', item:ms}); });
-
-  let html = `<div style="font-weight:700">${dt.toDateString()}</div><div class="small muted" style="margin-top:8px">Events: ${occs.length}</div>`;
-  occs.forEach(o=> html += `<div style="padding:8px;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)"><strong>${o.item.title}</strong><div class="small">type: ${o.type}</div></div>`);
-  html += `<div class="small muted" style="margin-top:10px">Logs: ${logs.length}</div>`;
-  logs.forEach(l=> html += `<div style="padding:8px;border-radius:8px;margin-top:8px;border:1px solid rgba(255,255,255,0.03)"><strong>${getSkillName(l.skillId)}</strong> • ${l.amount} • <div class="small">${l.note||''}</div></div>`);
-
-  // quick add
-  html += `<div style="margin-top:12px"><div style="font-weight:700">Quick Add</div>
-    <select id="daySkillSelect" style="margin-top:8px">${DB.skills.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select>
-    <input id="dayAmt" type="number" placeholder="amount" />
-    <textarea id="dayNote" placeholder="note (optional)" rows="2"></textarea>
-    <div style="display:flex;gap:8px"><button class="btn primary" onclick="addLogOnDate('${key}')">Add Log</button><button class="btn" onclick="openScheduleModal('${key}')">Add Event</button></div></div>`;
-  dayDetail.innerHTML = html;
+/* ---------- Create / Edit Activity ---------- */
+function openCreateActivity(){
+  openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Create Activity</div><button class="btn" onclick="closeModal()">Close</button></div>
+    <label>Name</label><input id="act_name" placeholder="e.g. Practice Speech">
+    <label>Skill</label><select id="act_skill">${DB.skills.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select>
+    <label>Type</label><select id="act_type"><option value="progress">Progress (hours/points)</option><option value="habit">Habit (daily checkbox)</option><option value="checklist">Checklist</option><option value="timeline">Timeline / Milestone</option></select>
+    <div id="typeOpts" style="margin-top:8px"></div>
+    <label>Color (hex)</label><input id="act_color" placeholder="#39d49a">
+    <div style="display:flex;gap:8px;margin-top:10px"><button class="btn primary" onclick="submitCreateActivity()">Create</button><button class="btn" onclick="closeModal()">Cancel</button></div>
+  </div>`);
+  document.getElementById('act_type').addEventListener('change', ()=> { const v = document.getElementById('act_type').value; const opts = el('typeOpts'); if(v==='progress' || v==='timeline'){ opts.innerHTML = `<label>Unit</label><input id="act_unit" placeholder="hours"><label>Target (numeric)</label><input id="act_target" type="number">`; } else if(v==='checklist'){ opts.innerHTML = `<label>Initial items (comma separated)</label><input id="act_items" placeholder="item1,item2">`; } else if(v==='habit'){ opts.innerHTML = `<label>Default recurrence</label><select id="act_recur"><option value="daily">Daily</option><option value="weekly">Weekly</option></select>`; } else opts.innerHTML=''; });
+}
+function submitCreateActivity(){
+  const name = el('act_name').value; if(!name) return alert('Name required');
+  const skillId = el('act_skill').value; const type = el('act_type').value; const color = el('act_color').value || '#39d49a';
+  const base = { id: uid(), name, skillId, type, color, createdAt: now(), recurrence: null };
+  if(type==='progress' || type==='timeline'){ base.unit = el('act_unit')?.value || 'hours'; base.target = Number(el('act_target')?.value) || 0; }
+  if(type==='checklist'){ const raw = el('act_items')?.value || ''; base.items = raw.split(',').map(s=>({ id: uid(), text: s.trim(), done:false})).filter(x=>x.text); }
+  if(type==='habit'){ const r = el('act_recur')?.value || 'daily'; base.recurrence = { type: r }; }
+  DB.activities.push(base); save(); closeModal(); renderActivities(); openActivityDetail(base.id);
 }
 
-/* Add log on specific date */
-function addLogOnDate(key){
-  const skillId = document.getElementById('daySkillSelect').value;
-  const amt = document.getElementById('dayAmt').value;
-  const note = document.getElementById('dayNote').value;
-  if(!skillId || !amt) return alert('Choose skill and amount');
-  DB.logs.push({ id: uid(), skillId, amount: Number(amt), date: key + 'T12:00:00', note });
-  saveDB(); render(); renderDayDetail(key);
+/* Edit & delete */
+function openEditActivity(id){
+  const a = DB.activities.find(x=>x.id===id); if(!a) return;
+  openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Edit Activity</div><button class="btn" onclick="closeModal()">Close</button></div>
+    <label>Name</label><input id="edit_name" value="${a.name}">
+    <label>Color</label><input id="edit_color" value="${a.color || ''}">
+    <div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" onclick="submitEditActivity('${a.id}')">Save</button><button class="btn" onclick="closeModal()">Cancel</button></div>
+  </div>`);
 }
+function submitEditActivity(id){ const a = DB.activities.find(x=>x.id===id); a.name = el('edit_name').value || a.name; a.color = el('edit_color').value || a.color; save(); closeModal(); renderActivities(); openActivityDetail(id); }
+function deleteActivity(id){ if(confirm('Delete activity?')){ DB.activities = DB.activities.filter(x=>x.id!==id); DB.logs = DB.logs.filter(l=>l.activityId!==id); save(); renderActivities(); el('activityDetail').innerHTML='Pilih kegiatan dari kiri.'; } }
 
-/* === Skill panel & logs management === */
-function renderSkillPanel(){
-  skillPanel.innerHTML = '';
-  if(!selectedSkill){ skillPanel.innerHTML = '<div class="small muted">No skill selected</div>'; return; }
-  const s = selectedSkill;
-  let html = `<div style="display:flex;justify-content:space-between;align-items:center"><div><div style="font-weight:800">${s.name}</div><div class="small muted">Goal: ${s.goal} ${s.unit}</div></div><div><button class="btn" onclick="openEditSkill('${s.id}')">Edit</button></div></div>`;
-  html += `<div style="margin-top:10px"><div class="small muted">Sub-skills</div>`;
-  (s.subs||[]).forEach(sub=> html += `<div style="display:flex;justify-content:space-between;align-items:center;padding:6px;margin-top:6px;border-radius:8px;border:1px solid rgba(255,255,255,0.02)">${sub.name}<div><button class="btn" onclick="renameSub('${s.id}','${sub.id}')">Rename</button><button class="btn" onclick="delSub('${s.id}','${sub.id}')">Delete</button></div></div>`);
-  html += `<div style="margin-top:8px"><button class="btn primary" onclick="addSubModal('${s.id}')">+ Add Sub-skill</button></div></div>`;
-
-  // logs table
-  const logs = DB.logs.filter(l=> l.skillId === s.id).sort((a,b)=> new Date(b.date)-new Date(a.date));
-  html += `<div style="margin-top:12px"><div class="small muted">Logs</div><table style="margin-top:8px"><thead><tr><th>Date</th><th>Amt</th><th>Note</th><th></th></tr></thead><tbody>`;
-  logs.forEach(l=> html += `<tr><td>${fmt(l.date)}</td><td>${l.amount}</td><td>${(l.note||'')}</td><td><button class="btn" onclick="delLog('${l.id}')">Del</button></td></tr>`);
-  html += `</tbody></table>`;
-  html += `<div style="margin-top:8px;display:flex;gap:8px"><button class="btn primary" onclick="openAddLogModal('${s.id}')">+ Add Progress</button><button class="btn" onclick="exportSkill('${s.id}')">Export Skill</button></div>`;
-  skillPanel.innerHTML = html;
-}
-
-/* === Missions === */
-function renderMissions(){
-  missionsArea.innerHTML = '';
-  DB.missions.forEach(m=>{
-    const div = document.createElement('div'); div.style.padding='8px'; div.style.border='1px solid rgba(255,255,255,0.03)'; div.style.borderRadius='8px'; div.style.marginTop='8px';
-    div.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${m.title}</strong><div class="small muted">For: ${getSkillName(m.relatedSkillId)||'General'}</div></div><div><span class="small">${m.status}</span></div></div>
-      <div class="small muted" style="margin-top:6px">Recurrence: ${m.recurrence||'none'}</div>
-      <div style="margin-top:8px;display:flex;gap:8px"><button class="btn" onclick="completeMission('${m.id}')">Complete</button><button class="btn" onclick="delMission('${m.id}')">Delete</button></div>`;
-    missionsArea.appendChild(div);
-  });
-}
-
-/* === Finances === */
-function renderFinances(){
-  finTable.innerHTML = '';
-  DB.finances.slice().reverse().forEach(f=>{
-    const tr = document.createElement('tr'); const d = new Date(f.date);
-    tr.innerHTML = `<td>${d.toLocaleDateString()}</td><td>${f.type}</td><td>${f.amount}</td><td>${f.category}</td>`;
-    finTable.appendChild(tr);
-  });
-  const bal = DB.finances.reduce((a,b)=> a + (b.type==='income' ? b.amount : b.type==='expense' ? -b.amount : 0), 0);
-  monthlyBal.textContent = bal;
-}
-
-/* === Coach === */
-function renderCoach(){
-  if(!selectedSkill){ coachBox.textContent = "Sayang, pilih skill dulu, aku bakal temani kamu :)"; return; }
-  coachBox.textContent = generateCoach(selectedSkill.name);
-}
-function generateCoach(skill){
-  const t = DB.settings.tone || 'partner_mix';
-  const templates = {
-    partner_mix: [
-      `Sayang, I see your progress in ${skill}. Aku bangga banget sama kamu — little step everyday, okay? 💚`,
-      `Babe, you did update ${skill} — I'm so proud. Keep doing 10 more minutes tomorrow, I’ll cheer you on 😘`,
-      `Sayang, progress for ${skill} noted. Don’t be hard on yourself, we go slow and steady ✨`
-    ],
-    professional: [
-      `Update noted for ${skill}. Maintain consistency and review weekly.`
-    ],
-    motivator: [
-      `Amazing work on ${skill}! Push a bit more tomorrow and break your record!`
-    ]
-  };
-  const arr = templates[t] || templates.partner_mix;
-  return arr[Math.floor(Math.random()*arr.length)];
-}
-
-/* === Helpers and CRUD === */
-function totalFor(skillId){ return DB.logs.filter(l=> l.skillId===skillId).reduce((a,b)=> a + Number(b.amount||0), 0); }
-function getSkillName(id){ return DB.skills.find(s=>s.id===id)?.name || ''; }
-function calcBestStreak(){
-  if(!DB.logs.length) return 0;
-  const days = Array.from(new Set(DB.logs.map(l=> new Date(l.date).toDateString())));
-  days.sort((a,b)=> new Date(a) - new Date(b));
-  let best = 0, cur = 1;
-  for(let i=1;i<days.length;i++){
-    const d1 = new Date(days[i-1]); const d2 = new Date(days[i]);
-    const diff = (d2 - d1) / (1000*60*60*24);
-    if(diff === 1) cur++; else cur = 1;
-    best = Math.max(best, cur);
-  }
-  return Math.max(best, cur);
-}
-
-/* === Add/Edit Modals (inline small builders) === */
-function openModal(html){ const root = document.getElementById('modalRoot'); root.style.display='block'; root.innerHTML = `<div class="modal-backdrop">${html}</div>`; }
-function closeModal(){ const root = document.getElementById('modalRoot'); root.style.display='none'; root.innerHTML = ''; }
-
-/* Skill modal */
-document.getElementById('addSkillBtn').onclick = ()=> openModal(`
-  <div class="modal">
-    <div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Create Skill</div><button class="btn" onclick="closeModal()">Close</button></div>
-    <label>Name</label><input id="ms_name" placeholder="e.g. Public Speaking">
-    <label>Unit</label><input id="ms_unit" placeholder="hours">
-    <label>Goal (numeric)</label><input id="ms_goal" type="number" placeholder="e.g. 50">
-    <label>Color (hex)</label><input id="ms_color" placeholder="#6fffb0">
-    <div style="display:flex;gap:8px"><button class="btn primary" onclick="submitSkill()">Create</button><button class="btn" onclick="closeModal()">Cancel</button></div>
-  </div>
-`);
-window.submitSkill = function(){
-  const name = document.getElementById('ms_name').value; if(!name) return alert('Name required');
-  const unit = document.getElementById('ms_unit').value || 'hours';
-  const goal = Number(document.getElementById('ms_goal').value) || 100;
-  const color = document.getElementById('ms_color').value || '#6fffb0';
-  DB.skills.push({ id: uid(), name, unit, goal, subs: [], color });
-  saveDB(); selectedSkill = DB.skills[DB.skills.length-1]; closeModal(); render();
-}
-
-/* Add sub-skill */
-function addSubModal(skillId){
-  openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Add Sub-skill</div><button class="btn" onclick="closeModal()">Close</button></div><label>Name</label><input id="ss_name"><div style="display:flex;gap:8px"><button class="btn primary" onclick="submitSub('${skillId}')">Add</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`);
-}
-window.submitSub = function(skillId){
-  const name = document.getElementById('ss_name').value; if(!name) return alert('Name required');
-  const s = DB.skills.find(x=>x.id===skillId); s.subs = s.subs || []; s.subs.push({ id: uid(), name }); saveDB(); closeModal(); render();
-}
-window.renameSub = function(skillId, subId){ const s = DB.skills.find(x=>x.id===skillId); const sub = s.subs.find(x=>x.id===subId); const nw = prompt('New name', sub.name); if(nw){ sub.name = nw; saveDB(); render(); } }
-window.delSub = function(skillId, subId){ if(confirm('Delete sub-skill?')){ const s = DB.skills.find(x=>x.id===skillId); s.subs = s.subs.filter(x=>x.id!==subId); saveDB(); render(); } }
-
-/* Add Log */
-function openAddLogModal(skillId){
+/* ---------- Logs (add/delete) ---------- */
+function openAddLogModal(actId){
   openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Add Progress</div><button class="btn" onclick="closeModal()">Close</button></div>
     <label>Date & Time</label><input id="lg_date" type="datetime-local" value="${new Date().toISOString().slice(0,16)}">
     <label>Amount</label><input id="lg_amount" type="number">
     <label>Note</label><textarea id="lg_note" rows="3"></textarea>
-    <div style="display:flex;gap:8px"><button class="btn primary" onclick="submitAddLog('${skillId}')">Add</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`);
-}
-window.submitAddLog = function(skillId){
-  const date = document.getElementById('lg_date').value; const amount = Number(document.getElementById('lg_amount').value); const note = document.getElementById('lg_note').value;
-  if(!amount) return alert('Amount required'); DB.logs.push({ id: uid(), skillId, date: new Date(date).toISOString(), amount, note }); saveDB(); closeModal(); render();
-}
-window.delLog = function(id){ if(confirm('Delete log?')){ DB.logs = DB.logs.filter(x=>x.id!==id); saveDB(); render(); } }
-
-/* Export skill */
-window.exportSkill = function(skillId){
-  const skill = DB.skills.find(s=>s.id===skillId);
-  const payload = { skill, logs: DB.logs.filter(l=>l.skillId===skillId) };
-  const blob = new Blob([JSON.stringify(payload,null,2)],{type:'application/json'}); const url = URL.createObjectURL(blob);
-  const a = document.createElement('a'); a.href = url; a.download = `${skill.name.replace(/\s+/g,'_')}_export.json`; a.click(); URL.revokeObjectURL(url);
-}
-
-/* === Missions & schedules === */
-document.getElementById('addScheduleBtn').onclick = ()=> openScheduleModal();
-
-function openScheduleModal(defaultDate){
-  openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Create Schedule / Mission</div><button class="btn" onclick="closeModal()">Close</button></div>
-    <label>Title</label><input id="ms_title">
-    <label>Related Skill (optional)</label><select id="ms_skill"><option value="">General</option>${DB.skills.map(s=>`<option value="${s.id}">${s.name}</option>`).join('')}</select>
-    <label>Start (datetime)</label><input id="ms_start" type="datetime-local" value="${defaultDate ? defaultDate+'T09:00' : new Date().toISOString().slice(0,16)}">
-    <label>Recurrence</label><select id="ms_recur" onchange="toggleRecurOpts()"><option value="none">None</option><option value="daily">Daily</option><option value="weekly">Weekly (pick days)</option><option value="biweekly">Bi-weekly</option><option value="monthly_date">Monthly (date)</option><option value="custom_every_n_days">Custom (every N days)</option></select>
-    <div id="recurOpts" style="display:none"></div>
-    <label>End Condition</label><select id="endCond" onchange="toggleEndOpts()"><option value="never">Never</option><option value="until">Until date</option><option value="after">After occurrences</option></select>
-    <div id="endOpts" style="display:none"></div>
-    <label>Reward (optional)</label><input id="ms_reward">
-    <div style="display:flex;gap:8px"><button class="btn primary" onclick="submitSchedule()">Create</button><button class="btn" onclick="closeModal()">Cancel</button></div>
+    <div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" onclick="submitAddLog('${actId}')">Add</button><button class="btn" onclick="closeModal()">Cancel</button></div>
   </div>`);
-  setTimeout(()=>{ toggleRecurOpts(); toggleEndOpts(); },50);
 }
-function toggleRecurOpts(){
-  const v = document.getElementById('ms_recur').value; const el = document.getElementById('recurOpts');
-  if(v==='weekly'){ el.style.display='block'; el.innerHTML = `<div class="small muted">Pick weekdays</div><div style="display:flex;gap:6px;margin-top:6px">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d,i)=>`<label style="display:flex;align-items:center;gap:6px"><input type="checkbox" class="wd_chk" value="${i}">${d}</label>`).join('')}</div>`; }
-  else if(v==='custom_every_n_days'){ el.style.display='block'; el.innerHTML = `<label class="small">Every N days</label><input id="everyN" type="number" placeholder="e.g. 3">`; }
-  else el.style.display='none', el.innerHTML='';
+function submitAddLog(actId){
+  const date = el('lg_date').value; const amount = Number(el('lg_amount').value); const note = el('lg_note').value;
+  if(!amount) return alert('Amount required'); DB.logs.push({ id: uid(), activityId: actId, date: new Date(date).toISOString(), amount, note }); save(); closeModal(); renderActivities(); openActivityDetail(actId); renderDashboard();
 }
-function toggleEndOpts(){
-  const v = document.getElementById('endCond').value; const el = document.getElementById('endOpts');
-  if(v==='until'){ el.style.display='block'; el.innerHTML = `<label class="small">Until date</label><input id="endDate" type="date">`; }
-  else if(v==='after'){ el.style.display='block'; el.innerHTML = `<label class="small">Occurrences</label><input id="endAfter" type="number" placeholder="e.g. 10">`; }
-  else el.style.display='none', el.innerHTML='';
+function deleteLog(id){ if(confirm('Delete log?')){ DB.logs = DB.logs.filter(x=>x.id!==id); save(); renderActivities(); renderDashboard(); } }
+
+/* Habit toggles */
+function toggleHabit(activityId, dateKeyStr, elCell){
+  const existed = DB.logs.find(l=> l.activityId===activityId && dateKey(l.date) === dateKeyStr);
+  if(existed){ DB.logs = DB.logs.filter(l=> !(l.activityId===activityId && dateKey(l.date) === dateKeyStr)); save(); elCell.classList.remove('done'); } else { DB.logs.push({ id: uid(), activityId, date: dateKeyStr + 'T12:00:00', amount:1 }); save(); elCell.classList.add('done'); }
+}
+function markToday(activityId){ const key = dateKey(new Date()); if(DB.logs.some(l=> l.activityId===activityId && dateKey(l.date)===key)) return alert('Already marked today'); DB.logs.push({ id: uid(), activityId, date: key + 'T12:00:00', amount:1 }); save(); openActivityDetail(activityId); renderDashboard(); }
+
+/* Checklist */
+function addChecklistItem(activityId){
+  const a = DB.activities.find(x=>x.id===activityId); const text = el('newChecklistItem').value; if(!text) return alert('Enter item'); a.items = a.items || []; a.items.push({ id: uid(), text, done:false }); save(); openActivityDetail(activityId);
+}
+function toggleChecklistItem(activityId, itemId, checkbox){
+  const a = DB.activities.find(x=>x.id===activityId); const item = a.items.find(i=>i.id===itemId); item.done = checkbox.checked; save(); openActivityDetail(activityId);
+}
+
+/* ---------- Schedules / Recurrence handling ---------- */
+function openScheduleModal(){
+  openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Create Scheduled Item</div><button class="btn" onclick="closeModal()">Close</button></div>
+    <label>Title</label><input id="sch_title">
+    <label>Start (datetime)</label><input id="sch_start" type="datetime-local" value="${new Date().toISOString().slice(0,16)}">
+    <label>Recurrence</label><select id="sch_recur" onchange="toggleScheduleOpts()"><option value="none">None</option><option value="daily">Daily</option><option value="weekly">Weekly (choose days)</option><option value="biweekly">Bi-weekly</option><option value="monthly_date">Monthly (date)</option><option value="custom_every_n_days">Custom (every N days)</option></select>
+    <div id="sch_opts" style="margin-top:8px"></div>
+    <label>End condition</label><select id="sch_end" onchange="toggleScheduleEnd()"><option value="never">Never</option><option value="until">Until date</option><option value="after">After occurrences</option></select>
+    <div id="sch_end_opts" style="margin-top:8px"></div>
+    <div style="margin-top:8px;display:flex;gap:8px"><button class="btn primary" onclick="submitSchedule()">Create</button><button class="btn" onclick="closeModal()">Cancel</button></div>
+  </div>`);
+  setTimeout(()=>{ toggleScheduleOpts(); toggleScheduleEnd(); },50);
+}
+function toggleScheduleOpts(){
+  const v = el('sch_recur').value; const o = el('sch_opts');
+  if(v==='weekly'){ o.style.display='block'; o.innerHTML = `<div class="small muted">Weekdays</div><div style="display:flex;gap:6px;margin-top:6px">${['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].map((d,i)=>`<label style="display:flex;align-items:center;gap:6px"><input type="checkbox" class="sch_wd" value="${i}">${d}</label>`).join('')}</div>`; }
+  else if(v==='custom_every_n_days'){ o.style.display='block'; o.innerHTML = `<label class="small">Every N days</label><input id="sch_every_n" type="number" placeholder="e.g. 3">`; }
+  else o.style.display='none', o.innerHTML='';
+}
+function toggleScheduleEnd(){
+  const v = el('sch_end').value; const oe = el('sch_end_opts');
+  if(v==='until'){ oe.style.display='block'; oe.innerHTML = `<label class="small">Until date</label><input id="sch_end_date" type="date">`; }
+  else if(v==='after'){ oe.style.display='block'; oe.innerHTML = `<label class="small">Occurrences</label><input id="sch_end_after" type="number" placeholder="e.g. 10">`; }
+  else oe.style.display='none', oe.innerHTML='';
 }
 function submitSchedule(){
-  const t = document.getElementById('ms_title').value; if(!t) return alert('Title required');
-  const sid = document.getElementById('ms_skill').value || null; const start = document.getElementById('ms_start').value;
-  const recur = document.getElementById('ms_recur').value; const reward = document.getElementById('ms_reward').value || null;
-  const m = { id: uid(), title: t, relatedSkillId: sid, start: start || null, recurrence: recur, reward };
-  if(recur==='weekly'){ m.weekdays = Array.from(document.querySelectorAll('.wd_chk:checked')).map(x=>Number(x.value)); }
-  if(recur==='custom_every_n_days'){ m.every_n_days = Number(document.getElementById('everyN').value) || 1; }
-  const endCond = document.getElementById('endCond').value;
-  if(endCond==='until'){ m.recurrence_end = document.getElementById('endDate').value; } else if(endCond==='after'){ m.end_after_occurrences = Number(document.getElementById('endAfter').value) || null; }
-  DB.missions.push(m); saveDB(); closeModal(); render();
+  const title = el('sch_title').value; if(!title) return alert('Title required');
+  const start = el('sch_start').value; const recur = el('sch_recur').value;
+  const s = { id: uid(), title, start: start || null, recurrence: recur };
+  if(recur==='weekly'){ s.weekdays = Array.from(document.querySelectorAll('.sch_wd:checked')).map(c=>Number(c.value)); }
+  if(recur==='custom_every_n_days'){ s.every_n_days = Number(el('sch_every_n')?.value) || 1; }
+  const endCond = el('sch_end').value; if(endCond==='until'){ s.recurrence_end = el('sch_end_date')?.value; } else if(endCond==='after'){ s.end_after = Number(el('sch_end_after')?.value) || null; }
+  DB.schedules.push(s); save(); closeModal(); renderSchedules(); renderDashboard();
+}
+function renderSchedules(){
+  const container = el('schedulesList'); container.innerHTML = '';
+  if(DB.schedules.length===0) container.innerHTML = '<div class="small muted">No schedules yet</div>';
+  DB.schedules.slice().reverse().forEach(s=>{
+    const div = document.createElement('div'); div.style.padding='10px'; div.style.border='1px solid rgba(255,255,255,0.03)'; div.style.borderRadius='8px'; div.style.marginBottom='8px';
+    div.innerHTML = `<div style="display:flex;justify-content:space-between"><div><strong>${s.title}</strong><div class="small muted">${s.recurrence || 'none'}</div></div><div><button class="btn" onclick="deleteSchedule('${s.id}')">Delete</button></div></div>`;
+    container.appendChild(div);
+  });
+}
+function deleteSchedule(id){ if(confirm('Delete schedule?')){ DB.schedules = DB.schedules.filter(s=>s.id!==id); save(); renderSchedules(); renderDashboard(); } }
+
+/* Expand occurrences for a given month (used for calendar) */
+function buildOccurrencesForMonth(view){
+  const map = {};
+  const start = new Date(view.getFullYear(), view.getMonth(), 1); const end = new Date(view.getFullYear(), view.getMonth()+1, 0);
+  const rangeStart = new Date(start.getFullYear(), start.getMonth(), 1,0,0,0); const rangeEnd = new Date(end.getFullYear(), end.getMonth(), end.getDate(),23,59,59);
+  DB.schedules.forEach(sch=>{
+    const occs = expandOccurrences(sch, rangeStart, rangeEnd);
+    occs.forEach(dt=>{ const k = dateKey(dt); map[k] = map[k] || []; map[k].push({ type:'schedule', title: sch.title, color:'#4fd1ff' }); });
+  });
+  DB.missions.forEach(ms=>{
+    if(ms.recurrence && ms.recurrence!=='none'){ const occs = expandOccurrences(ms, rangeStart, rangeEnd); occs.forEach(dt=>{ const k=dateKey(dt); map[k]=map[k]||[]; map[k].push({ type:'mission', title:ms.title, color:'#ffd166' }); }); }
+    else if(ms.due){ const d = new Date(ms.due); if(d>=rangeStart && d<=rangeEnd){ const k=dateKey(d); map[k]=map[k]||[]; map[k].push({ type:'mission', title:ms.title, color:'#ffd166' }); } }
+  });
+  return map;
+}
+function expandOccurrences(item, rangeStart, rangeEnd){
+  const occs=[]; const type = item.recurrence || 'none';
+  if(type==='none'){ if(item.start){ const d=new Date(item.start); if(d>=rangeStart && d<=rangeEnd) occs.push(d); } return occs; }
+  const start = item.start ? new Date(item.start) : new Date();
+  const endCond = item.recurrence_end ? new Date(item.recurrence_end) : null;
+  const maxEnd = endCond || rangeEnd;
+  let cur = new Date(start);
+  const pushIfIn = d=>{ if(d>=rangeStart && d<=rangeEnd) occs.push(new Date(d)); };
+  if(type==='daily'){ while(cur<=maxEnd){ pushIfIn(cur); cur.setDate(cur.getDate()+1); if(occs.length>500) break; } }
+  else if(type==='weekly'){ const w = item.weekdays || [cur.getDay()]; while(cur<=maxEnd){ if(w.includes(cur.getDay())) pushIfIn(cur); cur.setDate(cur.getDate()+1); if(occs.length>500) break; } }
+  else if(type==='biweekly'){ const interval = 14; while(cur<=maxEnd){ pushIfIn(cur); cur.setDate(cur.getDate()+interval); if(occs.length>500) break; } }
+  else if(type==='monthly_date'){ const dom = cur.getDate(); while(cur<=maxEnd){ pushIfIn(cur); cur.setMonth(cur.getMonth()+1); if(cur.getDate()!==dom) cur.setDate(Math.min(dom, new Date(cur.getFullYear(), cur.getMonth()+1,0).getDate())); if(occs.length>500) break; } }
+  else if(type==='custom_every_n_days'){ const n = item.every_n_days || 1; while(cur<=maxEnd){ pushIfIn(cur); cur.setDate(cur.getDate()+n); if(occs.length>500) break; } }
+  if(item.end_after) return occs.slice(0, item.end_after);
+  return occs;
 }
 
-/* Missions actions */
-function completeMission(id){ const m = DB.missions.find(x=>x.id===id); if(m){ m.status='completed'; saveDB(); alert('Mission completed! Reward: '+(m.reward||'-')); render(); } }
-function delMission(id){ if(confirm('Delete mission?')){ DB.missions = DB.missions.filter(x=>x.id!==id); saveDB(); render(); } }
+/* For day preview: gather events + missions */
+function expandAllOccurrencesForDate(key){
+  const result = [];
+  const dStart = new Date(key+'T00:00:00'), dEnd = new Date(key+'T23:59:59');
+  DB.schedules.forEach(sch=>{ if(expandOccurrences(sch, dStart, dEnd).length) result.push({ title: sch.title, type:'schedule' }); });
+  DB.missions.forEach(ms=>{ if(ms.recurrence && ms.recurrence!=='none'){ if(expandOccurrences(ms, dStart, dEnd).length) result.push({ title: ms.title, type:'mission' }); } else if(ms.due && dateKey(ms.due)===key) result.push({ title: ms.title, type:'mission' }); });
+  return result;
+}
 
-/* === Finances actions === */
-document.getElementById('addFin').onclick = ()=>{
-  const amt = Number(document.getElementById('finAmt').value); const type = document.getElementById('finType').value; const cat = document.getElementById('finCat').value || 'misc';
-  if(!amt) return alert('Amount required'); DB.finances.push({ id: uid(), date: now(), amount: amt, type, category: cat }); saveDB(); render();
-};
+/* ---------- Finance ---------- */
+function renderFinances(){
+  const tbody = el('finRecords'); tbody.innerHTML = '';
+  DB.finances.slice().reverse().forEach(f=>{
+    const tr = document.createElement('tr'); tr.innerHTML = `<td>${new Date(f.date).toLocaleDateString()}</td><td>${f.type}</td><td>${f.amount}</td><td>${f.category}</td>`;
+    tbody.appendChild(tr);
+  });
+  const bal = DB.finances.reduce((a,b)=> a + (b.type==='income'? b.amount : b.type==='expense'? -b.amount : 0), 0);
+  el('finBalance').textContent = bal;
+}
+el('addFinBtn').addEventListener('click', ()=> {
+  const amt = Number(el('finAmount').value); const type = el('finType').value; const cat = el('finCategory').value || 'misc';
+  if(!amt) return alert('Enter amount'); DB.finances.push({ id: uid(), date: now(), amount: amt, type, category: cat }); save(); renderFinances(); el('finAmount').value=''; el('finCategory').value='';
+});
 
-/* === Pomodoro === */
-document.getElementById('startPom').onclick = ()=>{
-  if(pomInterval){ clearInterval(pomInterval); pomInterval = null; pomTimer.textContent = 'Stopped'; return; }
-  let remaining = 25 * 60; pomTimer.textContent = formatSeconds(remaining);
-  pomInterval = setInterval(()=>{
-    remaining--; pomTimer.textContent = formatSeconds(remaining);
-    if(remaining <= 0){ clearInterval(pomInterval); pomInterval = null; pomTimer.textContent = 'Session done!'; const sk = document.getElementById('pomSkill').value; if(sk){ DB.logs.push({ id: uid(), skillId: sk, amount: 25, date: now(), note: 'Pomodoro auto-log' }); saveDB(); render(); } }
-  }, 1000);
-};
-function formatSeconds(s){ const m = Math.floor(s/60); const sec = s % 60; return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; }
+/* ---------- Review ---------- */
+el('genReviewBtn').addEventListener('click', ()=> {
+  const last7 = DB.logs.filter(l=> new Date(l.date) > new Date(Date.now() - 7*24*3600*1000));
+  const byAct = {};
+  last7.forEach(l=> byAct[l.activityId] = (byAct[l.activityId]||0) + Number(l.amount||0));
+  let txt = `Weekly Review (${new Date().toLocaleDateString()}):\n`;
+  for(const k in byAct){ txt += `- ${getActivityName(k)}: ${byAct[k]}\n`; }
+  txt += `Missions completed: ${DB.missions.filter(m=>m.status==='completed').length}`;
+  el('reviewText').value = txt;
+});
+el('saveReviewBtn').addEventListener('click', ()=> {
+  const blob = new Blob([el('reviewText').value], { type:'text/plain' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = `weekly_review_${new Date().toISOString().slice(0,10)}.txt`; a.click(); URL.revokeObjectURL(url);
+});
 
-/* === Export / Import === */
-document.getElementById('exportAll').onclick = ()=>{
-  const blob = new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
-  const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'pg_os_export.json'; a.click(); URL.revokeObjectURL(url);
-};
-document.getElementById('importAll').onclick = ()=> openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Import DB JSON</div><button class="btn" onclick="closeModal()">Close</button></div><textarea id="imp_json" rows="10" style="background:transparent"></textarea><div style="display:flex;gap:8px"><button class="btn primary" onclick="submitImport()">Import</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`);
-function submitImport(){ try{ const data = JSON.parse(document.getElementById('imp_json').value); DB = data; saveDB(); closeModal(); render(); alert('Imported'); } catch(e){ alert('Invalid JSON') } }
+/* ---------- Settings ---------- */
+function renderSettings(){ el('settingTone').value = DB.settings.tone || 'partner_mix'; }
+el('saveSettingsBtn').addEventListener('click', ()=> { DB.settings.tone = el('settingTone').value; save(); alert('Settings saved'); renderCoachPanel(); });
+el('resetDataBtn').addEventListener('click', ()=> { if(confirm('Reset local data? This will erase everything.')){ localStorage.removeItem(KEY); location.reload(); } });
 
-/* Import small */
-document.getElementById('importBtn').onclick = ()=> openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Import JSON</div><button class="btn" onclick="closeModal()">Close</button></div><textarea id="imp_short" rows="8" style="background:transparent"></textarea><div style="display:flex;gap:8px"><button class="btn primary" onclick="submitImportShort()">Import</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`);
-function submitImportShort(){ try{ const data = JSON.parse(document.getElementById('imp_short').value); DB = data; saveDB(); closeModal(); render(); alert('Imported'); } catch(e){ alert('Invalid JSON') } }
+/* ---------- Export / Import ---------- */
+el('exportBtnAll').addEventListener('click', ()=> {
+  const blob = new Blob([JSON.stringify(DB,null,2)], { type:'application/json' }); const url = URL.createObjectURL(blob); const a = document.createElement('a'); a.href = url; a.download = 'pg_os_export.json'; a.click(); URL.revokeObjectURL(url);
+});
+el('importBtnAll').addEventListener('click', ()=> { openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Import DB</div><button class="btn" onclick="closeModal()">Close</button></div><textarea id="imp_txt" rows="10" style="background:transparent"></textarea><div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" onclick="submitImportAll()">Import</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`); });
+function submitImportAll(){ try{ const data = JSON.parse(el('imp_txt').value); DB = data; save(); closeModal(); renderAllViews(); alert('Imported'); } catch(e){ alert('Invalid JSON'); } }
+el('importBtn').addEventListener('click', ()=> { openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Import (short)</div><button class="btn" onclick="closeModal()">Close</button></div><textarea id="imp_short" rows="8" style="background:transparent"></textarea><div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" onclick="submitImportShort()">Import</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`); });
+function submitImportShort(){ try{ const data = JSON.parse(el('imp_short').value); DB = data; save(); closeModal(); renderAllViews(); alert('Imported'); } catch(e){ alert('Invalid JSON'); } }
 
-/* Settings */
-document.getElementById('settingsBtn').onclick = ()=> openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Settings</div><button class="btn" onclick="closeModal()">Close</button></div><label>Coach Tone</label><select id="set_tone"><option value="partner_mix">Partner (ID+EN)</option><option value="professional">Professional</option><option value="motivator">Motivator</option></select><div style="display:flex;gap:8px;margin-top:8px"><button class="btn primary" onclick="applySettings()">Save</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`);
-function applySettings(){ DB.settings.tone = document.getElementById('set_tone').value; saveDB(); closeModal(); alert('Saved'); render(); }
+/* ---------- Quick Add ---------- */
+el('quickAddBtn').addEventListener('click', ()=> {
+  const aid = el('quickSkillSelect').value; const amt = Number(el('quickAmt').value); if(!aid||!amt) return alert('Choose activity and amount'); DB.logs.push({ id: uid(), activityId: aid, date: now(), amount: amt, note:'quick' }); save(); renderAllViews(); el('quickAmt').value='';
+});
 
-/* Schedule modal exposed to window for quick add */
+/* ---------- Pomodoro ---------- */
+let pomTimer = null;
+el('pomStartBtn').addEventListener('click', ()=> {
+  if(pomTimer){ clearInterval(pomTimer); pomTimer = null; el('pomDisplay').textContent = 'Stopped'; return; }
+  let sec = 25*60; el('pomDisplay').textContent = formatSeconds(sec);
+  pomTimer = setInterval(()=> { sec--; el('pomDisplay').textContent = formatSeconds(sec); if(sec<=0){ clearInterval(pomTimer); pomTimer=null; el('pomDisplay').textContent = 'Session done!'; const sk = el('pomSkill').value; if(sk){ // try to find activity by name or id
+      const act = DB.activities.find(a=> a.id===sk || a.name.toLowerCase()===sk.toLowerCase()); if(act){ DB.logs.push({ id: uid(), activityId: act.id, date: now(), amount:25, note:'pomodoro' }); save(); renderAllViews(); } } } }, 1000);
+});
+function formatSeconds(s){ const m = Math.floor(s/60); const sec = s%60; return `${String(m).padStart(2,'0')}:${String(sec).padStart(2,'0')}`; }
+
+/* ---------- Achievements ---------- */
+function renderAchievements(){
+  const area = el('achieveArea'); area.innerHTML = '';
+  // sample achievements: total logs milestones
+  const total = DB.logs.reduce((a,b)=>a+Number(b.amount||0),0);
+  const milestones = [10,50,100,200,500];
+  const unlocked = milestones.filter(m=> total >= m);
+  unlocked.forEach(m=>{
+    const d = document.createElement('div'); d.style.padding='8px'; d.style.border='1px solid rgba(255,255,255,0.03)'; d.style.borderRadius='8px'; d.style.marginTop='8px'; d.innerHTML = `<strong>Milestone ${m}</strong><div class="small muted">Total units reached ${m}</div>`; area.appendChild(d);
+  });
+  if(unlocked.length===0) area.innerHTML = '<div class="small muted">No achievements yet — keep going!</div>';
+}
+
+/* ---------- Helpers ---------- */
+function getSkillName(id){ return DB.skills.find(s=>s.id===id)?.name || '—'; }
+function getActivityName(id){ return DB.activities.find(a=>a.id===id)?.name || '—'; }
+function calcBestStreak(){
+  if(!DB.logs.length) return 0;
+  const daySet = Array.from(new Set(DB.logs.map(l=> new Date(l.date).toDateString())));
+  daySet.sort((a,b)=> new Date(a)-new Date(b));
+  let best=0, cur=1;
+  for(let i=1;i<daySet.length;i++){ const diff = (new Date(daySet[i]) - new Date(daySet[i-1])) / (1000*60*60*24); if(diff===1) cur++; else cur=1; best = Math.max(best, cur); }
+  return Math.max(best, cur);
+}
+
+/* ---------- Modal helper ---------- */
+function openModal(html){ const root = el('modalRoot'); root.style.display = 'block'; root.innerHTML = `<div class="modal-backdrop">${html}</div>`; }
+function closeModal(){ const root = el('modalRoot'); root.style.display = 'none'; root.innerHTML = ''; }
+
+/* ---------- Small functions used by injected HTML ---------- */
+window.openCreateActivity = openCreateActivity;
+window.openAddLogModal = openAddLogModal;
+window.openEditActivity = openEditActivity;
+window.deleteActivity = deleteActivity;
+window.deleteLog = deleteLog;
+window.addLogOnDate = function(key){
+  const activityId = el('daySkillSel').value; const amt = Number(el('dayAmt').value); const note = el('dayNote').value;
+  if(!activityId || !amt) return alert('Choose activity & amount');
+  DB.logs.push({ id: uid(), activityId, date: key + 'T12:00:00', amount: amt, note }); save(); renderAllViews(); openModal('<div class="modal"><div style="padding:12px">Added ✅ <div style="margin-top:8px"><button class="btn" onclick="closeModal()">Close</button></div></div></div>'); };
 window.openScheduleModal = openScheduleModal;
 
-/* Add log on date helper (exposed) */
-window.addLogOnDate = addLogOnDate;
+/* ---------- Toggle habit & checklist functions need global binding ---------- */
+window.toggleHabit = toggleHabit;
+window.markToday = markToday;
+window.addChecklistItem = addChecklistItem;
+window.toggleChecklistItem = toggleChecklistItem;
 
-/* Edit skill modal */
-window.openEditSkill = function(id){
-  const s = DB.skills.find(x=>x.id===id);
-  openModal(`<div class="modal"><div style="display:flex;justify-content:space-between;align-items:center"><div style="font-weight:800">Edit Skill</div><button class="btn" onclick="closeModal()">Close</button></div>
-    <label>Name</label><input id="edit_name" value="${s.name}">
-    <label>Goal</label><input id="edit_goal" type="number" value="${s.goal}">
-    <div style="display:flex;gap:8px"><button class="btn primary" onclick="submitEditSkill('${id}')">Save</button><button class="btn" onclick="closeModal()">Cancel</button></div></div>`);
-}
-window.submitEditSkill = function(id){ const s = DB.skills.find(x=>x.id===id); s.name = document.getElementById('edit_name').value; s.goal = Number(document.getElementById('edit_goal').value)||s.goal; saveDB(); closeModal(); render(); }
+/* ---------- Helpers for rendering all views ---------- */
+function renderAllViews(){ renderActivities(); renderDashboard(); renderSchedules(); renderFinances(); renderCoachPanel(); }
+function renderCoachPanel(){ el('coachPanel').textContent = generateCoach(); }
+function generateCoach(){ const t = DB.settings.tone || 'partner_mix'; const templates = {
+  partner_mix: [`Sayang, aku bangga banget liat usaha kamu hari ini. Little steps, big changes 💚`, `Babe, kamu udah bekerja keras — peluk dulu, terus lanjut ya. Aku di sini.`],
+  professional: [`Progress recorded. Maintain consistency.`, `Good job. Plan next steps.`],
+  motivator: [`Legend! Keep pushing, you got this!`, `Power mode on — smash the targets!`]
+}; const arr = templates[t] || templates.partner_mix; return arr[Math.floor(Math.random()*arr.length)]; }
 
-/* Delete helpers exposed */
-window.delMission = delMission; window.delLog = window.delLog; window.openAddLogModal = openAddLogModal; window.exportSkill = exportSkill;
+/* ---------- Initial render ---------- */
+renderAllViews();
+renderCoachPanel();
 
-/* Small helpers & initial rendering */
-function renderMissions(){ renderMissions(); } // placeholder to avoid lint confusion
-function renderAllSections(){ render(); }
-render();
-
-/* Because some functions were defined after usage in this compact file, call initial render again to ensure UI ready */
-render();
-
-/* Expose functions for inline handlers used in HTML strings */
-window.submitSchedule = submitSchedule;
-window.toggleRecurOpts = toggleRecurOpts;
-window.toggleEndOpts = toggleEndOpts;
-window.submitMission = submitSchedule; // alias
+/* Ensure initial active view is dashboard */
+document.querySelector('.nav-btn[data-view="dashboard"]').click();
 </script>
 </body>
 </html>
